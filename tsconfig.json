@@ -1,7 +1,15 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
+    "target": "ES2024",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
     "declaration": false,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "incremental": true,
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
