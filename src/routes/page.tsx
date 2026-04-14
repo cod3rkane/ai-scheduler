@@ -1,13 +1,13 @@
-import {Helmet} from '@modern-js/runtime/head';
+import { Helmet } from '@modern-js/runtime/head';
 
-import {default as hello} from '@api/hello';
+import { default as hello } from '@api/hello';
 
 import './index.css';
 
 const Index = () => {
   const res = hello().then(console.log);
 
-  console.log({res});
+  console.log({ res });
 
   return (
     <div className="container-box">
@@ -29,7 +29,8 @@ const Index = () => {
           <p className="name">Modern.js</p>
         </div>
         <p className="description">
-          Get started by editing <code className="code">src/routes/page.tsx</code>
+          Get started by editing{' '}
+          <code className="code">src/routes/page.tsx</code>
         </p>
         <div className="grid">
           <a
@@ -99,7 +100,7 @@ const Index = () => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default Index;

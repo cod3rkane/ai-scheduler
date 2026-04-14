@@ -2,13 +2,13 @@ import {
   ComposerAddAttachment,
   ComposerAttachments,
   UserMessageAttachments,
-} from "@/components/assistant-ui/attachment";
-import { MarkdownText } from "@/components/assistant-ui/markdown-text";
-import { Reasoning } from "@/components/assistant-ui/reasoning";
-import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+} from '@/components/assistant-ui/attachment';
+import { MarkdownText } from '@/components/assistant-ui/markdown-text';
+import { Reasoning } from '@/components/assistant-ui/reasoning';
+import { ToolFallback } from '@/components/assistant-ui/tool-fallback';
+import { TooltipIconButton } from '@/components/assistant-ui/tooltip-icon-button';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
   ActionBarMorePrimitive,
   ActionBarPrimitive,
@@ -20,7 +20,7 @@ import {
   SuggestionPrimitive,
   ThreadPrimitive,
   useAuiState,
-} from "@assistant-ui/react";
+} from '@assistant-ui/react';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -33,24 +33,24 @@ import {
   PencilIcon,
   RefreshCwIcon,
   SquareIcon,
-} from "lucide-react";
-import type { FC } from "react";
+} from 'lucide-react';
+import type { FC } from 'react';
 
 export const Thread: FC = () => {
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root @container flex h-full flex-col bg-background"
       style={{
-        ["--thread-max-width" as string]: "44rem",
-        ["--composer-radius" as string]: "24px",
-        ["--composer-padding" as string]: "10px",
+        ['--thread-max-width' as string]: '44rem',
+        ['--composer-radius' as string]: '24px',
+        ['--composer-padding' as string]: '10px',
       }}
     >
       <ThreadPrimitive.Viewport
         turnAnchor="top"
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-auto overflow-y-scroll scroll-smooth px-4 pt-4"
       >
-        <AuiIf condition={(s) => s.thread.isEmpty}>
+        <AuiIf condition={s => s.thread.isEmpty}>
           <ThreadWelcome />
         </AuiIf>
 
@@ -68,10 +68,10 @@ export const Thread: FC = () => {
 };
 
 const ThreadMessage: FC = () => {
-  const role = useAuiState((s) => s.message.role);
-  const isEditing = useAuiState((s) => s.message.composer.isEditing);
+  const role = useAuiState(s => s.message.role);
+  const isEditing = useAuiState(s => s.message.composer.isEditing);
   if (isEditing) return <EditComposer />;
-  if (role === "user") return <UserMessage />;
+  if (role === 'user') return <UserMessage />;
   return <AssistantMessage />;
 };
 
@@ -160,7 +160,7 @@ const ComposerAction: FC = () => {
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <ComposerAddAttachment />
-      <AuiIf condition={(s) => !s.thread.isRunning}>
+      <AuiIf condition={s => !s.thread.isRunning}>
         <ComposerPrimitive.Send asChild>
           <TooltipIconButton
             tooltip="Send message"
@@ -175,7 +175,7 @@ const ComposerAction: FC = () => {
           </TooltipIconButton>
         </ComposerPrimitive.Send>
       </AuiIf>
-      <AuiIf condition={(s) => s.thread.isRunning}>
+      <AuiIf condition={s => s.thread.isRunning}>
         <ComposerPrimitive.Cancel asChild>
           <Button
             type="button"
@@ -211,9 +211,9 @@ const AssistantMessage: FC = () => {
       <div className="aui-assistant-message-content wrap-break-word px-2 text-foreground leading-relaxed">
         <MessagePrimitive.Parts>
           {({ part }) => {
-            if (part.type === "text") return <MarkdownText />;
-            if (part.type === "reasoning") return <Reasoning {...part} />;
-            if (part.type === "tool-call")
+            if (part.type === 'text') return <MarkdownText />;
+            if (part.type === 'reasoning') return <Reasoning {...part} />;
+            if (part.type === 'tool-call')
               return part.toolUI ?? <ToolFallback {...part} />;
             return null;
           }}
@@ -239,10 +239,10 @@ const AssistantActionBar: FC = () => {
     >
       <ActionBarPrimitive.Copy asChild>
         <TooltipIconButton tooltip="Copy">
-          <AuiIf condition={(s) => s.message.isCopied}>
+          <AuiIf condition={s => s.message.isCopied}>
             <CheckIcon />
           </AuiIf>
-          <AuiIf condition={(s) => !s.message.isCopied}>
+          <AuiIf condition={s => !s.message.isCopied}>
             <CopyIcon />
           </AuiIf>
         </TooltipIconButton>
@@ -347,7 +347,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
     <BranchPickerPrimitive.Root
       hideWhenSingleBranch
       className={cn(
-        "aui-branch-picker-root mr-2 -ml-2 inline-flex items-center text-muted-foreground text-xs",
+        'aui-branch-picker-root mr-2 -ml-2 inline-flex items-center text-muted-foreground text-xs',
         className,
       )}
       {...rest}

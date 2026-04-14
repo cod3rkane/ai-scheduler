@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import { memo, useCallback, useRef, useState } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { BrainIcon, ChevronDownIcon } from "lucide-react";
+import { memo, useCallback, useRef, useState } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { BrainIcon, ChevronDownIcon } from 'lucide-react';
 import {
   useScrollLock,
   useAssistantState,
   type ReasoningMessagePartComponent,
   type ReasoningGroupComponent,
-} from "@assistant-ui/react";
-import { MarkdownText } from "@/components/assistant-ui/markdown-text";
+} from '@assistant-ui/react';
+import { MarkdownText } from '@/components/assistant-ui/markdown-text';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/collapsible';
+import { cn } from '@/lib/utils';
 
 const ANIMATION_DURATION = 200;
 
-const reasoningVariants = cva("aui-reasoning-root mb-4 w-full", {
+const reasoningVariants = cva('aui-reasoning-root mb-4 w-full', {
   variants: {
     variant: {
-      default: "",
-      outline: "rounded-lg border px-3 py-2",
-      muted: "rounded-lg bg-muted/50 px-3 py-2",
+      default: '',
+      outline: 'rounded-lg border px-3 py-2',
+      muted: 'rounded-lg bg-muted/50 px-3 py-2',
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
 });
 
 export type ReasoningRootProps = Omit<
   React.ComponentProps<typeof Collapsible>,
-  "open" | "onOpenChange"
+  'open' | 'onOpenChange'
 > &
   VariantProps<typeof reasoningVariants> & {
     open?: boolean;
@@ -81,7 +81,7 @@ function ReasoningRoot({
       className={cn(reasoningVariants({ variant, className }))}
       style={
         {
-          "--animation-duration": `${ANIMATION_DURATION}ms`,
+          '--animation-duration': `${ANIMATION_DURATION}ms`,
         } as React.CSSProperties
       }
       {...props}
@@ -91,20 +91,20 @@ function ReasoningRoot({
   );
 }
 
-function ReasoningFade({ className, ...props }: React.ComponentProps<"div">) {
+function ReasoningFade({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="reasoning-fade"
       className={cn(
-        "aui-reasoning-fade pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8",
-        "bg-[linear-gradient(to_top,var(--color-background),transparent)]",
-        "fade-in-0 animate-in",
-        "group-data-[state=open]/collapsible-content:animate-out",
-        "group-data-[state=open]/collapsible-content:fade-out-0",
-        "group-data-[state=open]/collapsible-content:delay-[calc(var(--animation-duration)*0.75)]",
-        "group-data-[state=open]/collapsible-content:fill-mode-forwards",
-        "duration-(--animation-duration)",
-        "group-data-[state=open]/collapsible-content:duration-(--animation-duration)",
+        'aui-reasoning-fade pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8',
+        'bg-[linear-gradient(to_top,var(--color-background),transparent)]',
+        'fade-in-0 animate-in',
+        'group-data-[state=open]/collapsible-content:animate-out',
+        'group-data-[state=open]/collapsible-content:fade-out-0',
+        'group-data-[state=open]/collapsible-content:delay-[calc(var(--animation-duration)*0.75)]',
+        'group-data-[state=open]/collapsible-content:fill-mode-forwards',
+        'duration-(--animation-duration)',
+        'group-data-[state=open]/collapsible-content:duration-(--animation-duration)',
         className,
       )}
       {...props}
@@ -121,13 +121,13 @@ function ReasoningTrigger({
   active?: boolean;
   duration?: number;
 }) {
-  const durationText = duration ? ` (${duration}s)` : "";
+  const durationText = duration ? ` (${duration}s)` : '';
 
   return (
     <CollapsibleTrigger
       data-slot="reasoning-trigger"
       className={cn(
-        "aui-reasoning-trigger group/trigger flex max-w-[75%] items-center gap-2 py-1 text-muted-foreground text-sm transition-colors hover:text-foreground",
+        'aui-reasoning-trigger group/trigger flex max-w-[75%] items-center gap-2 py-1 text-muted-foreground text-sm transition-colors hover:text-foreground',
         className,
       )}
       {...props}
@@ -154,10 +154,10 @@ function ReasoningTrigger({
       <ChevronDownIcon
         data-slot="reasoning-trigger-chevron"
         className={cn(
-          "aui-reasoning-trigger-chevron mt-0.5 size-4 shrink-0",
-          "transition-transform duration-(--animation-duration) ease-out",
-          "group-data-[state=closed]/trigger:-rotate-90",
-          "group-data-[state=open]/trigger:rotate-0",
+          'aui-reasoning-trigger-chevron mt-0.5 size-4 shrink-0',
+          'transition-transform duration-(--animation-duration) ease-out',
+          'group-data-[state=closed]/trigger:-rotate-90',
+          'group-data-[state=open]/trigger:rotate-0',
         )}
       />
     </CollapsibleTrigger>
@@ -173,14 +173,14 @@ function ReasoningContent({
     <CollapsibleContent
       data-slot="reasoning-content"
       className={cn(
-        "aui-reasoning-content relative overflow-hidden text-muted-foreground text-sm outline-none",
-        "group/collapsible-content ease-out",
-        "data-[state=closed]:animate-collapsible-up",
-        "data-[state=open]:animate-collapsible-down",
-        "data-[state=closed]:fill-mode-forwards",
-        "data-[state=closed]:pointer-events-none",
-        "data-[state=open]:duration-(--animation-duration)",
-        "data-[state=closed]:duration-(--animation-duration)",
+        'aui-reasoning-content relative overflow-hidden text-muted-foreground text-sm outline-none',
+        'group/collapsible-content ease-out',
+        'data-[state=closed]:animate-collapsible-up',
+        'data-[state=open]:animate-collapsible-down',
+        'data-[state=closed]:fill-mode-forwards',
+        'data-[state=closed]:pointer-events-none',
+        'data-[state=open]:duration-(--animation-duration)',
+        'data-[state=closed]:duration-(--animation-duration)',
         className,
       )}
       {...props}
@@ -191,22 +191,22 @@ function ReasoningContent({
   );
 }
 
-function ReasoningText({ className, ...props }: React.ComponentProps<"div">) {
+function ReasoningText({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="reasoning-text"
       className={cn(
-        "aui-reasoning-text relative z-0 max-h-64 space-y-4 overflow-y-auto pt-2 pb-4 pl-6 leading-relaxed",
-        "transform-gpu transition-[transform,opacity]",
-        "group-data-[state=open]/collapsible-content:animate-in",
-        "group-data-[state=closed]/collapsible-content:animate-out",
-        "group-data-[state=open]/collapsible-content:fade-in-0",
-        "group-data-[state=closed]/collapsible-content:fade-out-0",
-        "group-data-[state=open]/collapsible-content:slide-in-from-top-4",
-        "group-data-[state=closed]/collapsible-content:slide-out-to-top-4",
-        "group-data-[state=open]/collapsible-content:duration-(--animation-duration)",
-        "group-data-[state=closed]/collapsible-content:duration-(--animation-duration)",
-        "[&_p]:-mb-2",
+        'aui-reasoning-text relative z-0 max-h-64 space-y-4 overflow-y-auto pt-2 pb-4 pl-6 leading-relaxed',
+        'transform-gpu transition-[transform,opacity]',
+        'group-data-[state=open]/collapsible-content:animate-in',
+        'group-data-[state=closed]/collapsible-content:animate-out',
+        'group-data-[state=open]/collapsible-content:fade-in-0',
+        'group-data-[state=closed]/collapsible-content:fade-out-0',
+        'group-data-[state=open]/collapsible-content:slide-in-from-top-4',
+        'group-data-[state=closed]/collapsible-content:slide-out-to-top-4',
+        'group-data-[state=open]/collapsible-content:duration-(--animation-duration)',
+        'group-data-[state=closed]/collapsible-content:duration-(--animation-duration)',
+        '[&_p]:-mb-2',
         className,
       )}
       {...props}
@@ -222,11 +222,11 @@ const ReasoningGroupImpl: ReasoningGroupComponent = ({
   endIndex,
 }) => {
   const isReasoningStreaming = useAssistantState(({ message }) => {
-    if (message.status?.type !== "running") return false;
+    if (message.status?.type !== 'running') return false;
     const lastIndex = message.parts.length - 1;
     if (lastIndex < 0) return false;
     const lastType = message.parts[lastIndex]?.type;
-    if (lastType !== "reasoning") return false;
+    if (lastType !== 'reasoning') return false;
     return lastIndex >= startIndex && lastIndex <= endIndex;
   });
 
@@ -250,7 +250,7 @@ const Reasoning = memo(
   Fade: typeof ReasoningFade;
 };
 
-Reasoning.displayName = "Reasoning";
+Reasoning.displayName = 'Reasoning';
 Reasoning.Root = ReasoningRoot;
 Reasoning.Trigger = ReasoningTrigger;
 Reasoning.Content = ReasoningContent;
@@ -258,7 +258,7 @@ Reasoning.Text = ReasoningText;
 Reasoning.Fade = ReasoningFade;
 
 const ReasoningGroup = memo(ReasoningGroupImpl);
-ReasoningGroup.displayName = "ReasoningGroup";
+ReasoningGroup.displayName = 'ReasoningGroup';
 
 export {
   Reasoning,
