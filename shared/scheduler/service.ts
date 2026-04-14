@@ -1,5 +1,21 @@
-import {getDb} from '@shared/db.server';
+import {DatabaseSync} from 'node:sqlite';
+import {join} from 'node:path';
 import {BipartiteScheduler, type Worker, type Slot} from '@shared/scheduler/matching';
+
+const DB_PATH = join(process.cwd(), 'scheduler.db');
+
+/**
+ * Singleton database instance to avoid multiple connections
+ * and prevent initialization during build time.
+ */
+let db: DatabaseSync;
+
+export function getDb(): DatabaseSync {
+  if (!db) {
+    db = new DatabaseSync(DB_PATH);
+  }
+  return db;
+}
 
 /**
  * Fill the schedule for a given date range
