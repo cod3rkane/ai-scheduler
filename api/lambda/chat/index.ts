@@ -13,7 +13,7 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
 
   const result = streamText({
     // model: google("gemini-2.5-flash"),
-    model: google("gemini-3-flash-preview"),
+    model: google("gemini-2.0-flash"),
     system,
     messages: await convertToModelMessages(messages),
     maxSteps: 5, // Enable automatic server-side tool execution
@@ -25,10 +25,38 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
     },
     tools: {
       'addSchedule': tool({
-        parameters: {},
+        parameters:
+          {
+            type: "object",
+            properties: {
+              startDate: {
+                type: "string",
+                format: "date",
+                description: "The start date for scheduling in YYYY-MM-DD format.",
+              },
+              endDate: {
+                type: "string",
+                format: "date",
+                description: "The end date for scheduling in YYYY-MM-DD format.",
+              },
+            },
+            required: ["startDate", "endDate"],
+          },
         description: 'Fills the schedule for a given data range',
         execute: async ({startDate, endDate}) => {
           return outFill(startDate, endDate);
+        },
+      }),
+      'listWorkers': tool({
+        parameters: {},
+        description: 'List All Workers',
+        execute: async () => {
+          const db = getDb();
+          const query = db.prepare('SELECT * FROM workers ORDER BY name ASC;');
+
+          const workers = query.all();
+
+          return workers;
         },
       }),
       'addWorker': tool({
@@ -51,21 +79,12 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
           required: ["name", "role"],
         },
         description: 'Adds a new worker to the system.',
-        onInputStart: (options) => {
-          console.log({options});
-        },
         type: 'function',
         execute: async ({name, role, skills}) => {
-          console.log({name, role, skills});
-
           const db = getDb();
           const insertWorker = db.prepare('INSERT INTO workers (name, role, skills) VALUES (?, ?, ?)');
 
           const result = insertWorker.run(name, role, skills || '');
-
-          console.log({result});
-
-          // @TODO fix return response
 
           return {success: true, message: `Worker ${name} (${role}) added successfully.`};
         },
