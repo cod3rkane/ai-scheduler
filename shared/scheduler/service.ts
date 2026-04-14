@@ -107,3 +107,60 @@ export function outFill(startDate: string, endDate: string) {
     endDate
   };
 }
+
+export function getWorkers() {
+  const db = getDb();
+  const query = db.prepare('SELECT * FROM workers ORDER BY name ASC;');
+  return query.all();
+}
+
+export function addWorker(name: string, role: string, skills: string = '') {
+  const db = getDb();
+  const insertWorker = db.prepare('INSERT INTO workers (name, role, skills) VALUES (?, ?, ?)');
+  insertWorker.run(name, role, skills);
+  return {success: true, message: `Worker ${name} (${role}) added successfully.`};
+}
+
+export function getAssignments(startDate?: string, endDate?: string) {
+  const db = getDb();
+  let query = `
+      SELECT a.date,
+             w.name,
+             w.role
+      FROM assignments a
+               JOIN workers w ON a.worker_id = w.id
+  `;
+  const params: string[] = [];
+
+  if (startDate && endDate) {
+    query += ` WHERE a.date BETWEEN ? AND ?`;
+    params.push(startDate, endDate);
+  } else if (startDate) {
+    query += ` WHERE a.date = ?`;
+    params.push(startDate);
+  } else if (endDate) {
+    query += ` WHERE a.date = ?`;
+    params.push(endDate);
+  }
+
+  query += ` ORDER BY a.date, w.name`;
+
+  const assignedWorkers = db.prepare(query).all(...params) as any[];
+
+  if (assignedWorkers.length === 0) {
+    return {assignments: "No workers assigned for the specified period."};
+  }
+
+  let result = "Assigned Workers:";
+  let currentDate = "";
+
+  for (const assignment of assignedWorkers) {
+    if (assignment.date !== currentDate) {
+      result += `\n--- Date: ${assignment.date} ---\n`;
+      currentDate = assignment.date;
+    }
+    result += `- ${assignment.name} (${assignment.role})\n`;
+  }
+
+  return {assignments: result};
+}
