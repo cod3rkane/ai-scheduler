@@ -1,32 +1,37 @@
 import {google} from "@ai-sdk/google";
-import {frontendTools} from "@assistant-ui/react-ai-sdk";
 import {convertToModelMessages, streamText, tool} from "ai";
 import type {RequestOption} from "@modern-js/plugin-bff/server";
 
 import {outFill, getDb} from "@shared/scheduler/service";
-
-export const maxDuration = 30;
 
 export async function post({query, data}: RequestOption<Record<string, string>, {
   messages: any,
   system: any,
   tools: any
 }>) {
-  const {messages, system, tools} = await data;
+  const {messages, system} = await data;
 
   const result = streamText({
-    model: google("gemini-2.5-flash"),
+    // model: google("gemini-2.5-flash"),
+    model: google("gemini-3-flash-preview"),
     system,
     messages: await convertToModelMessages(messages),
-    tools: frontendTools({
-      'addSchedule': {
+    maxSteps: 5, // Enable automatic server-side tool execution
+    onStepFinish: ({toolCalls, toolResults}) => {
+      if (toolCalls.length > 0) {
+        console.log('Tool Calls:', JSON.stringify(toolCalls, null, 2));
+        console.log('Tool Results:', JSON.stringify(toolResults, null, 2));
+      }
+    },
+    tools: {
+      'addSchedule': tool({
         parameters: {},
         description: 'Fills the schedule for a given data range',
         execute: async ({startDate, endDate}) => {
           return outFill(startDate, endDate);
         },
-      },
-      'addWorker': {
+      }),
+      'addWorker': tool({
         parameters: {
           type: "object",
           properties: {
@@ -46,22 +51,26 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
           required: ["name", "role"],
         },
         description: 'Adds a new worker to the system.',
+        onInputStart: (options) => {
+          console.log({options});
+        },
+        type: 'function',
         execute: async ({name, role, skills}) => {
-          console.log({ name, role, skills});
+          console.log({name, role, skills});
 
           const db = getDb();
           const insertWorker = db.prepare('INSERT INTO workers (name, role, skills) VALUES (?, ?, ?)');
 
           const result = insertWorker.run(name, role, skills || '');
 
-          console.log({ result });
+          console.log({result});
 
           // @TODO fix return response
 
           return {success: true, message: `Worker ${name} (${role}) added successfully.`};
         },
-      },
-      'getAssignedWorkers': {
+      }),
+      'getAssignedWorkers': ({
         parameters: {
           type: "object",
           properties: {
@@ -124,9 +133,21 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
 
           return {assignments: result};
         },
-      },
-    }),
+      }),
+    },
   });
+
+  await result.toolCalls.then((events) => {
+    console.log({events});
+
+    events.forEach((event) => {
+      if (event.type === "tool-call") {
+
+      }
+    })
+  });
+  await result.toolResults.then(console.log);
+  await result.consumeStream();
 
   console.log({result});
 
