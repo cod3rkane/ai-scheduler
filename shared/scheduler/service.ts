@@ -10,7 +10,14 @@ export function outFill(startDate: string, endDate: string) {
   const db = getDb();
 
   // 1. Fetch data from DB
-  const workers = db.prepare('SELECT id, name, role FROM workers WHERE is_active = 1').all() as Worker[];
+  const rawWorkers = db.prepare('SELECT id, name, role, skills, is_active FROM workers WHERE is_active = 1').all() as any[];
+  const workers: Worker[] = rawWorkers.map(w => ({
+    id: Number(w.id),
+    name: String(w.name),
+    role: String(w.role),
+    skills: String(w.skills || ''),
+    is_active: w.is_active === 1
+  }));
   const requirements = db.prepare('SELECT day_of_week, role, count_needed FROM requirements').all() as any[];
 
   // Get time off for the range
