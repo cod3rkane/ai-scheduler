@@ -6,7 +6,8 @@
     "build": "modern build",
     "serve": "modern serve",
     "lint": "biome check",
-    "db:populate": "tsx ./shared/populate.ts"
+    "db:populate": "tsx ./shared/populate.ts",
+    "test:matching": "tsx ./tests/scheduler.test.ts"
   },
   "engines": {
     "node": ">=20"
