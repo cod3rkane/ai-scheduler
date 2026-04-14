@@ -1,6 +1,6 @@
 import {Helmet} from '@modern-js/runtime/head';
 
-import {get as hello} from '@api/hello';
+import {default as hello} from '@api/hello';
 
 import './index.css';
 
