@@ -1,13 +1,12 @@
-import { Helmet } from '@modern-js/runtime/head';
+import {Helmet} from '@modern-js/runtime/head';
 
-import { default as hello } from '@api/hello';
+import {default as hello} from '@api/hello';
 
-import './index.css';
 
 const Index = () => {
   const res = hello().then(console.log);
 
-  console.log({ res });
+  console.log({res});
 
   return (
     <div className="container-box">

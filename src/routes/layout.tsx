@@ -1,15 +1,12 @@
-import { Outlet } from '@modern-js/runtime/router';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import {Outlet} from '@modern-js/runtime/router';
+import {TooltipProvider} from '@/components/ui/tooltip';
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+import './index.css';
+
+export default function Layout() {
   return (
-    <html lang="en">
-      <body>
-        <Outlet />
-        <TooltipProvider>{children}</TooltipProvider>
-      </body>
-    </html>
+    <TooltipProvider>
+      <Outlet/>
+    </TooltipProvider>
   );
 }

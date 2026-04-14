@@ -13,7 +13,7 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
   const {messages, system, tools} = await data;
 
   const result = streamText({
-    model: google("gemini-2.0-flash"),
+    model: google("gemini-2.5-flash"),
     system,
     messages: await convertToModelMessages(messages),
     tools: frontendTools(tools),
