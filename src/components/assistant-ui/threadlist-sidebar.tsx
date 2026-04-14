@@ -25,8 +25,7 @@ export function ThreadListSidebar({
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
                 <Link
-                  to="https://assistant-ui.com"
-                  target="_blank"
+                  to="#"
                   rel="noopener noreferrer"
                 >
                   <div className="aui-sidebar-header-icon-wrapper flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
@@ -34,7 +33,7 @@ export function ThreadListSidebar({
                   </div>
                   <div className="aui-sidebar-header-heading mr-6 flex flex-col gap-0.5 leading-none">
                     <span className="aui-sidebar-header-title font-semibold">
-                      assistant-ui
+                      AI-Scheduler
                     </span>
                   </div>
                 </Link>
@@ -52,7 +51,7 @@ export function ThreadListSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link
-                to="https://github.com/assistant-ui/assistant-ui"
+                to="https://github.com/cod3rkane/ai-scheduler"
                 target="_blank"
                 rel="noopener noreferrer"
               >
