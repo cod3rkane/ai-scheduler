@@ -1,5 +1,5 @@
 {
-  "name": "Test",
+  "name": "AI-Scheduler",
   "version": "0.1.0",
   "scripts": {
     "dev": "modern dev",
