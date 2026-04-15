@@ -9,20 +9,30 @@ export const schedulerTools = {
         startDate: {
           type: "string",
           format: "date",
-          description: "The start date for scheduling in YYYY-MM-DD format.",
+          description: "Start date for a schedule in YYYY-MM-DD format",
         },
         endDate: {
           type: "string",
           format: "date",
-          description: "The end date for scheduling in YYYY-MM-DD format.",
+          description: "End date for a schedule in YYYY-MM-DD format",
         },
       },
       required: ["startDate", "endDate"],
     },
-    description: "Fills the schedule for a given data range",
+    description: "Fills the schedule for a given startDate and endDate",
     // @ts-ignore
-    execute: async ({startDate, endDate, ...args}: { startDate: string, endDate: string }) => {
-      return outFill(startDate, endDate);
+    execute: async ({startDate, endDate}: { startDate: string, endDate: string }) => {
+      console.log({startDate, endDate});
+
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+      const nextDay = new Date(tomorrow);
+      nextDay.setDate(nextDay.getDate() + 1);
+      const nextDayStr = nextDay.toISOString().split('T')[0];
+
+      return outFill(tomorrowStr, nextDayStr);
     },
   }),
   listWorkers: tool({

@@ -15,7 +15,6 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
     model: google("gemini-2.5-flash"),
     system,
     messages: await convertToModelMessages(messages),
-    maxSteps: 5, // Enable automatic server-side tool execution
     tools: {
       ...schedulerTools
     },
