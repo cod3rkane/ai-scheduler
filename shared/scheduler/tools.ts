@@ -22,25 +22,31 @@ export const schedulerTools = {
     description: "Fills the schedule for a given startDate and endDate",
     // @ts-ignore
     execute: async ({startDate, endDate}: { startDate: string, endDate: string }) => {
-      console.log({startDate, endDate});
-
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = tomorrow.toISOString().split('T')[0];
-
-      const nextDay = new Date(tomorrow);
-      nextDay.setDate(nextDay.getDate() + 1);
-      const nextDayStr = nextDay.toISOString().split('T')[0];
-
-      return outFill(tomorrowStr, nextDayStr);
+      return outFill(startDate, endDate);
     },
   }),
   listWorkers: tool({
-    parameters: {type: "object", properties: {}},
-    description: "List All Workers",
+    parameters: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "Optional: Filter workers by name.",
+        },
+        role: {
+          type: "string",
+          description: "Optional: Filter workers by role.",
+        },
+        skills: {
+          type: "string",
+          description: "Optional: Filter workers by skills.",
+        },
+      },
+    },
+    description: "List workers with optional filters.",
     // @ts-ignore
-    execute: async () => {
-      return getWorkers();
+    execute: async ({name, role, skills}: { name?: string, role?: string, skills?: string }) => {
+      return getWorkers(name, role, skills);
     },
   }),
   addWorker: tool({
@@ -110,9 +116,9 @@ export const schedulerTools = {
     // @ts-ignore
     execute: async ({startDate, endDate}: { startDate?: string, endDate?: string }) => {
       const assignments = getAssignmentsData(startDate, endDate);
-      const workers = getWorkers() as any[];
+      const workers = getWorkers('', '', '') as any[];
       const dates = [...new Set(assignments.map(a => a.date))].sort();
-      return { assignments, workers, dates };
+      return {assignments, workers, dates};
     },
   }),
 };

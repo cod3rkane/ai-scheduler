@@ -108,10 +108,34 @@ export function outFill(startDate: string, endDate: string) {
   };
 }
 
-export function getWorkers() {
+export function getWorkers(name?: string, role?: string, skills?: string) {
   const db = getDb();
-  const query = db.prepare('SELECT * FROM workers ORDER BY name ASC;');
-  return query.all();
+  let query = 'SELECT * FROM workers';
+  const params: string[] = [];
+  const conditions: string[] = [];
+
+  if (name && name.trim() !== '') {
+    conditions.push('name LIKE ?');
+    params.push(`%${name}%`);
+  }
+
+  if (role && role.trim() !== '') {
+    conditions.push('role = ?');
+    params.push(role);
+  }
+
+  if (skills && skills.trim() !== '') {
+    conditions.push('skills LIKE ?');
+    params.push(`%${skills}%`);
+  }
+
+  if (conditions.length > 0) {
+    query += ' WHERE ' + conditions.join(' AND ');
+  }
+
+  query += ' ORDER BY name ASC;';
+
+  return db.prepare(query).all(...params);
 }
 
 export function addWorker(name: string, role: string, skills: string = '') {
@@ -125,7 +149,7 @@ export function getAssignmentsData(startDate?: string, endDate?: string) {
   const db = getDb();
   let query = `
       SELECT a.date,
-             w.id as worker_id,
+             w.id   as worker_id,
              w.name as worker_name,
              w.role
       FROM assignments a
