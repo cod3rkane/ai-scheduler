@@ -4,6 +4,11 @@
 An intelligent, automated scheduling platform that combines a Bipartite Matching algorithm with a Llama-powered AI
 assistant to manage workforce assignments seamlessly.
 
+For a quick start up in `development` mode, you can simply run:
+```jsx
+npm run init
+```
+
 ✦ To run the AI Staff Scheduler, follow these steps:
 
 1. Prerequisites 
