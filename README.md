@@ -1,6 +1,8 @@
 # Scheduler-AI
 🗓️ AI-Powered Staff Scheduler
 
+![https://github.com/cod3rkane/ai-scheduler/blob/main/resources/4.png?raw=true](https://github.com/cod3rkane/ai-scheduler/blob/main/resources/4.png?raw=true)
+
 An intelligent, automated scheduling platform that combines a Bipartite Matching algorithm with a Llama-powered AI
 assistant to manage workforce assignments seamlessly.
 
