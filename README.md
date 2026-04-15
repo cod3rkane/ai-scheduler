@@ -6,6 +6,8 @@
 An intelligent, automated scheduling platform that combines a Bipartite Matching algorithm with a Llama-powered AI
 assistant to manage workforce assignments seamlessly.
 
+You required a `GEMINI TOKEN`, please check the content on env.example.local, rename it to `env.local`
+
 For a quick start up in `development` mode, you can simply run:
 ```jsx
 npm run init
