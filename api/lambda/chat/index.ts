@@ -21,19 +21,5 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
     },
   });
 
-  await result.toolCalls.then((events) => {
-    console.log({events});
-
-    events.forEach((event) => {
-      if (event.type === "tool-call") {
-
-      }
-    })
-  });
-  await result.toolResults.then(console.log);
-  await result.consumeStream();
-
-  console.log({result});
-
   return result.toUIMessageStreamResponse();
 }

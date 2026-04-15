@@ -20,13 +20,15 @@ export const schedulerTools = {
       required: ["startDate", "endDate"],
     },
     description: "Fills the schedule for a given data range",
-    execute: async ({startDate, endDate}) => {
+    // @ts-ignore
+    execute: async ({startDate, endDate, ...args}: { startDate: string, endDate: string }) => {
       return outFill(startDate, endDate);
     },
   }),
   listWorkers: tool({
     parameters: {type: "object", properties: {}},
     description: "List All Workers",
+    // @ts-ignore
     execute: async () => {
       return getWorkers();
     },
@@ -51,7 +53,8 @@ export const schedulerTools = {
       required: ["name", "role"],
     },
     description: "Adds a new worker to the system.",
-    execute: async ({name, role, skills}) => {
+    // @ts-ignore
+    execute: async ({name, role, skills}: { name: string, role: string, skills: string }) => {
       return addWorker(name, role, skills);
     },
   }),
@@ -72,7 +75,8 @@ export const schedulerTools = {
       },
     },
     description: "Fills the schedule for a given data range",
-    execute: async ({startDate, endDate}) => {
+    // @ts-ignore
+    execute: async ({startDate, endDate}: { startDate: string, endDate: string }) => {
       return getAssignments(startDate, endDate);
     },
   }),
