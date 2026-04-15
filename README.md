@@ -89,5 +89,8 @@ This app was Roughly 60-70% built using A.I, well deserved credits to:
 - gemini-2.0-flash and gemini-2.5-flash Models
 - Gemini CLI
 
+## You can change the model at `api/lambda/chat/index.ts:37`
+- If you run Llama models Locally there is a branch for you ❤️ `local-llama`
+
 ## Learn more
 - [Made With Love ❤️ by @Cod3rkane](https://github.com/cod3rkane) - your feedback and contributions are welcome!
