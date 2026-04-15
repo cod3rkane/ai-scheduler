@@ -7,7 +7,9 @@
     "serve": "modern serve",
     "lint": "biome check",
     "db:populate": "tsx ./shared/populate.ts",
-    "test:matching": "tsx ./tests/scheduler.test.ts"
+    "test:matching": "tsx ./tests/scheduler.test.ts",
+    "init": "npm install && npm run dev",
+    "postinstall": "npm run db:populate"
   },
   "engines": {
     "node": ">=20"
