@@ -14,7 +14,7 @@ export async function post({query, data}: RequestOption<Record<string, string>, 
 
   const result = streamText({
     model: ollama("llama3.2:3b"),
-    system,
+    system: `${system}\n\nWhen the user asks for a visual schedule, a graph, or a timeline, use the getVisualSchedule tool to provide a structured visualization.`,
     messages: await convertToModelMessages(messages),
     tools: {
       ...schedulerTools

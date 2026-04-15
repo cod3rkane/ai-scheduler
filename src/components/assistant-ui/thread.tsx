@@ -36,6 +36,8 @@ import {
 } from 'lucide-react';
 import type { FC } from 'react';
 
+import { VisualScheduleTool } from '@/components/assistant-ui/visual-schedule-tool';
+
 export const Thread: FC = () => {
   return (
     <ThreadPrimitive.Root
@@ -213,8 +215,12 @@ const AssistantMessage: FC = () => {
           {({ part }) => {
             if (part.type === 'text') return <MarkdownText />;
             if (part.type === 'reasoning') return <Reasoning {...part} />;
-            if (part.type === 'tool-call')
+            if (part.type === 'tool-call') {
+              if (part.toolName === 'getVisualSchedule') {
+                return <VisualScheduleTool {...part} />;
+              }
               return part.toolUI ?? <ToolFallback {...part} />;
+            }
             return null;
           }}
         </MessagePrimitive.Parts>

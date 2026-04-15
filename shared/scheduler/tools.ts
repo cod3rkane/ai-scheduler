@@ -1,5 +1,5 @@
 import {tool} from "ai";
-import {addWorker, getAssignments, getWorkers, outFill} from "./service";
+import {addWorker, getAssignments, getAssignmentsData, getWorkers, outFill} from "./service";
 
 export const schedulerTools = {
   addSchedule: tool({
@@ -88,6 +88,31 @@ export const schedulerTools = {
     // @ts-ignore
     execute: async ({startDate, endDate}: { startDate: string, endDate: string }) => {
       return getAssignments(startDate, endDate);
+    },
+  }),
+  getVisualSchedule: tool({
+    parameters: {
+      type: "object",
+      properties: {
+        startDate: {
+          type: "string",
+          format: "date",
+          description: "Optional: The start date in YYYY-MM-DD format.",
+        },
+        endDate: {
+          type: "string",
+          format: "date",
+          description: "Optional: The end date in YYYY-MM-DD format.",
+        },
+      },
+    },
+    description: "Get a structured schedule data for visual representation (graph/timeline).",
+    // @ts-ignore
+    execute: async ({startDate, endDate}: { startDate?: string, endDate?: string }) => {
+      const assignments = getAssignmentsData(startDate, endDate);
+      const workers = getWorkers() as any[];
+      const dates = [...new Set(assignments.map(a => a.date))].sort();
+      return { assignments, workers, dates };
     },
   }),
 };

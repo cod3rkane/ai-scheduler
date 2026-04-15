@@ -121,6 +121,39 @@ export function addWorker(name: string, role: string, skills: string = '') {
   return {success: true, message: `Worker ${name} (${role}) added successfully.`};
 }
 
+export function getAssignmentsData(startDate?: string, endDate?: string) {
+  const db = getDb();
+  let query = `
+      SELECT a.date,
+             w.id as worker_id,
+             w.name as worker_name,
+             w.role
+      FROM assignments a
+               JOIN workers w ON a.worker_id = w.id
+  `;
+  const params: string[] = [];
+
+  if (startDate && endDate) {
+    query += ` WHERE a.date BETWEEN ? AND ?`;
+    params.push(startDate, endDate);
+  } else if (startDate) {
+    query += ` WHERE a.date = ?`;
+    params.push(startDate);
+  } else if (endDate) {
+    query += ` WHERE a.date = ?`;
+    params.push(endDate);
+  }
+
+  query += ` ORDER BY a.date, w.name`;
+
+  return db.prepare(query).all(...params) as {
+    date: string;
+    worker_id: number;
+    worker_name: string;
+    role: string;
+  }[];
+}
+
 export function getAssignments(startDate?: string, endDate?: string) {
   const db = getDb();
   let query = `
