@@ -102,6 +102,9 @@ const ThreadWelcome: FC = () => {
           <p className="aui-thread-welcome-message-inner fade-in slide-in-from-bottom-1 animate-in fill-mode-both text-muted-foreground text-xl delay-75 duration-200">
             How can I help you today?
           </p>
+          <p className="aui-thread-welcome-message-inner fade-in slide-in-from-bottom-1 animate-in fill-mode-both text-muted-foreground text-xl delay-75 duration-200">
+            Try asking for available actions, or simply type 'List all available workers'
+          </p>
         </div>
       </div>
       <ThreadSuggestions />
